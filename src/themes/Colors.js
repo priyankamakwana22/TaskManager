@@ -6,7 +6,7 @@ const Colors = {
   // GREEN: '#89c3c7',
   GREEN: '#355E3B',
   GRAY: '#979797',
-  LINK:'#3e949a'
+  LINK: '#3e949a',
 };
 
 export default Colors;

@@ -9,6 +9,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Colors from '../../themes/Colors';
 import {Dimensions} from 'react-native';
 import TaskList from '../../components/tasksList/TaskList';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Dashboard = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -20,25 +21,28 @@ const Dashboard = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.GRAY}}>
-      <ScrollView style={{}}>
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <TaskTopics title="To do" />
-          <TaskTopics title="In Progress" />
-          <TaskTopics title="Testing" />
-          <TaskTopics title="Done" />
-        </View>
-      </ScrollView>
+    <SafeAreaView>
+      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
+        <ScrollView>
+          <View style={{alignItems: 'center', marginTop: 20}}>
+            <TaskTopics title="To do" />
+            <TaskList />
+            <TaskTopics title="In Progress" />
+            <TaskTopics title="Testing" />
+            <TaskTopics title="Done" />
+          </View>
+        </ScrollView>
 
-      <Pressable style={styles.plusBtn} onPress={() => openModalView()}>
-        <FontAwesome5 name={'plus'} size={25} color={'#ffffff'} />
-      </Pressable>
-      <ModalTask
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        openModalView={openModalView}
-      />
-    </View>
+        <Pressable style={styles.plusBtn} onPress={() => openModalView()}>
+          <FontAwesome5 name={'plus'} size={25} color={'#ffffff'} />
+        </Pressable>
+        <ModalTask
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          openModalView={openModalView}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

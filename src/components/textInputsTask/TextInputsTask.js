@@ -2,7 +2,6 @@ import {Text, TextInput, View} from 'react-native';
 import styles from './Style';
 
 const TextInputsTask = props => {
-  console.log('🚀 ~ TextInputsTask ~ props:', props);
   return (
     <View style={styles.container}>
       <Text style={styles.input_title}>{props.title}</Text>

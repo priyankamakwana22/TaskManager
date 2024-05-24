@@ -1,29 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Colors from '../../themes/Colors';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import styles from './Styles';
-import {setSelectedAssignee} from '../../redux/actions/Actions';
 
-const DropdownComponent = () => {
-  const dispatch = useDispatch();
+const DropdownComponent = ({dropDownValue, setDropDown}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  const {selectedValue} = useSelector(state => state.selectedAssigneeReducer);
-  console.log('🚀 ~ DropdownComponent ~ selectedValue:', selectedValue);
-
   const data = registerData.map(item => ({
     label: item.UserName,
     value: item.id,
   }));
 
-  const [value, setValue] = useState([]);
-  // dispatch(setSelectedAssignee(value));
+  // const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
   const renderLabel = () => {
-    if (value || isFocus) {
+    if (dropDownValue || isFocus) {
       return (
         <Text style={[styles.label, isFocus && {color: Colors.GREEN}]}>
           Assign task to
@@ -49,11 +43,12 @@ const DropdownComponent = () => {
         valueField="value"
         placeholder={!isFocus ? 'Select assignee' : '...'}
         searchPlaceholder="Search..."
-        value={value}
+        value={dropDownValue}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
-          setValue(item);
+          setDropDown(item);
+          // setValue(item);
           setIsFocus(false);
         }}
         renderLeftIcon={() => (

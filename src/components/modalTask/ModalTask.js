@@ -7,7 +7,11 @@ import DropdownComponent from '../dropDownStatus/DropDownStatus';
 import Button from '../button/Button';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {addTask} from '../../redux/actions/Actions';
+import {
+  addTask,
+  registerUser,
+  setSelectedAssignee,
+} from '../../redux/actions/Actions';
 import TextInputsTask from '../textInputsTask/TextInputsTask';
 
 const ModalTask = props => {
@@ -15,8 +19,11 @@ const ModalTask = props => {
   const [description, setDescription] = useState('');
 
   const {taskData} = useSelector(state => state.addTaskReducer);
-  const dispatch = useDispatch();
+  const {registerData} = useSelector(state => state.registerReducer);
+  console.log('🚀 ~ ModalTask ~ registerData:', registerData);
   console.log('🚀 ~ ModalTask ~ taskData:', taskData);
+  const [value, setValue] = useState(null);
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const navigateToDashboard = () => {
@@ -29,11 +36,11 @@ const ModalTask = props => {
         id: taskData.length + 1,
         Title: title,
         Description: description,
+        DDValue: value.label,
       };
 
       let newTask;
       newTask = [...taskData, userTask];
-      console.log('newUser', newTask);
       dispatch(addTask(newTask));
       navigation.replace('Tasks');
     }
@@ -81,7 +88,10 @@ const ModalTask = props => {
           />
         </View>
         <View style={styles.child_comp}>
-          <DropdownComponent />
+          <DropdownComponent
+            dropDownValue={value}
+            setDropDown={item => setValue(item)}
+          />
         </View>
         <View style={styles.child_comp}>
           <Button

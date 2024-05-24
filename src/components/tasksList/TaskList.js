@@ -1,41 +1,27 @@
-import {View, FlatList, Text, TouchableOpacity} from 'react-native';
-import styles from './Styles';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {FlatList, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
-const TaskList = props => {
-  const data = [{title: 'Tiitle', description: 'DEs'}];
+const TaskList = () => {
+  const {taskData} = useSelector(state => state.addTaskReducer);
+  const {registerData} = useSelector(state => state.registerReducer);
+  console.log('🚀 ~ TaskList ~ registerData:', registerData);
+  console.log('🚀 ~ TaskList ~ registerData:', taskData);
+
+  const user = taskData.DDValue === registerData.UserName;
   return (
-    <FlatList
-      // nestedScrollEnabled={true}
-      //   data={props.todoData}
-      data={data}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({item, index}) => {
-        if (item.selectedId === props.selectedId) {
-          return (
-            <TouchableOpacity
-            //   onPress={() => props.handleClickOnTodo(item, index)}
-            >
-              <View style={styles.flView}>
-                <View style={{flex: 9}}>
-                  <Text numberOfLines={1} style={styles.listTitle}>
-                    {item.title}
-                  </Text>
-                  <Text numberOfLines={3} style={styles.listDesc}>
-                    {item.description}
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={{flex: 1}}
-                  onPress={() => props.deleteTask(item.id)}>
-                  <FontAwesome5 name={'trash'} size={25} color={'red'} />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          );
-        }
-      }}
-    />
+    <View>
+      {user ? (
+        <FlatList
+          data={taskData}
+          renderItem={({item}) => (
+            <View>
+              <Text>{item.Title}</Text>
+              <Text>{item.Description}</Text>
+            </View>
+          )}
+        />
+      ) : null}
+    </View>
   );
 };
 

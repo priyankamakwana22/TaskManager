@@ -6,7 +6,6 @@ import Login from '../screens/login/Login';
 import 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import Colors from '../themes/Colors';
-import {authLogin} from '../redux/actions/Actions';
 import LogoutButton from '../components/logoutButton/logoutButton';
 import DropdownComponent from '../components/dropDownStatus/DropDownStatus';
 

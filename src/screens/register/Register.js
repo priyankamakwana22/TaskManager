@@ -12,7 +12,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ Register ~ data:', registerData);
+  console.log('🚀 ~ Register ~ registerData:', registerData);
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -54,11 +54,11 @@ const Register = ({navigation}) => {
         Email: email,
         Password: password,
         CPassword: cpassword,
+        tasks: [],
       };
 
       let newUser;
       newUser = [...registerData, userData];
-      console.log('newUser', newUser);
       dispatch(registerUser(newUser));
       navigation.replace('Tasks');
     }

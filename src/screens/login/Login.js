@@ -8,11 +8,10 @@ import LinkLine from '../../components/linkLine/LinkLine';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLogin} from '../../redux/actions/Actions';
 
-const Login = ({navigation}) => {
+const Login = ({navigation, setUName}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  const loggedIn = useSelector(state => state.authReducer);
-  console.log('🚀 ~ Login ~ loggedIn:', loggedIn);
   console.log('🚀 ~ Login ~ registerData:', registerData);
+  const loggedIn = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState('');
@@ -28,7 +27,6 @@ const Login = ({navigation}) => {
         user => user.UserName === userName && user.Password === password,
       );
       if (user) {
-        console.log('Login valid');
         navigation.replace('Tasks');
         dispatch(authLogin(true));
       } else {

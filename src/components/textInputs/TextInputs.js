@@ -1,5 +1,5 @@
 import {TextInput, View} from 'react-native';
-import styles from './style';
+import styles from './Style';
 import Colors from '../../themes/Colors';
 
 const TextInputs = props => {

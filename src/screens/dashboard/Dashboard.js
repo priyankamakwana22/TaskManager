@@ -4,20 +4,34 @@ import Global from '../../utils/Global';
 import styles from './Style';
 import {useState} from 'react';
 import ModalTask from '../../components/modalTask/ModalTask';
+import TaskTopics from '../../components/taskTopics/TaskTopics';
+import {ScrollView} from 'react-native-gesture-handler';
+import Colors from '../../themes/Colors';
+import {Dimensions} from 'react-native';
+import TaskList from '../../components/tasksList/TaskList';
 
 const Dashboard = () => {
   const [openModal, setOpenModal] = useState(false);
 
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const openModalView = () => {
-    
     setOpenModal(true);
   };
 
   return (
-    <View style={Global.container}>
-      <Pressable style={styles.btn} onPress={() => openModalView()}>
-        <Text style={styles.btn_text}>Add new task</Text>
-        <FontAwesome5 name={'plus'} size={24} color={'white'} />
+    <View style={{flex: 1, backgroundColor: Colors.GRAY}}>
+      <ScrollView style={{}}>
+        <View style={{alignItems: 'center', marginTop: 20}}>
+          <TaskTopics title="To do" />
+          <TaskTopics title="In Progress" />
+          <TaskTopics title="Testing" />
+          <TaskTopics title="Done" />
+        </View>
+      </ScrollView>
+
+      <Pressable style={styles.plusBtn} onPress={() => openModalView()}>
+        <FontAwesome5 name={'plus'} size={25} color={'#ffffff'} />
       </Pressable>
       <ModalTask
         openModal={openModal}

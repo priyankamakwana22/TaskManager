@@ -1,11 +1,44 @@
-import {View, Text, Modal} from 'react-native';
-import styles from './Style';
-import {TextInput} from 'react-native-gesture-handler';
-import Colors from '../../themes/Colors';
+import {View, Text, Modal, TextInput, Pressable, Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontSize from '../../themes/FontSize';
+import Strings from '../../constant/Strings';
+import {useState} from 'react';
+import styles from './Style';
+import DropdownComponent from '../dropDownStatus/DropDownStatus';
+import Button from '../button/Button';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {addTask} from '../../redux/actions/Actions';
+import TextInputsTask from '../textInputsTask/TextInputsTask';
 
 const ModalTask = props => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const {taskData} = useSelector(state => state.addTaskReducer);
+  const dispatch = useDispatch();
+  console.log('🚀 ~ ModalTask ~ taskData:', taskData);
+
+  const navigation = useNavigation();
+  const navigateToDashboard = () => {
+    if (title === '') {
+      Alert.alert('Please enter your title');
+    } else if (description === '') {
+      Alert.alert('Please enter your title');
+    } else {
+      const userTask = {
+        id: taskData.length + 1,
+        Title: title,
+        Description: description,
+      };
+
+      let newTask;
+      newTask = [...taskData, userTask];
+      console.log('newUser', newTask);
+      dispatch(addTask(newTask));
+      navigation.replace('Tasks');
+    }
+  };
+
   return (
     <Modal
       visible={props.openModal}
@@ -13,61 +46,48 @@ const ModalTask = props => {
       onRequestClose={() => props.setOpenModal(false)}
       animationType="slide"
       hardwareAccelerated>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: Colors.BACKGROUND,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: 60,
-            backgroundColor: Colors.GREEN,
-          }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              flex: 0.2,
-            }}>
-            <Ionicons name={'chevron-back-outline'} size={34} color={'white'} />
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.back_icon}>
+            <Pressable
+              onPress={() =>
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'Tasks'}],
+                })
+              }>
+              <Ionicons
+                name={'chevron-back-outline'}
+                size={34}
+                color={'white'}
+              />
+            </Pressable>
           </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontSize: FontSize.FONT_TITLE,
-                color: Colors.WHITE,
-                fontWeight: '500',
-              }}>
-              New task
-            </Text>
+          <View style={styles.heading}>
+            <Text style={styles.heading_text}>New task</Text>
           </View>
-          <View
-            style={{
-              flex: 0.2,
-            }}
+          <View style={styles.heading_last_view} />
+        </View>
+        <View style={styles.bottom_view}>
+          <TextInputsTask
+            title={Strings.title}
+            value={title}
+            onChangeText={title => setTitle(title)}
+          />
+          <TextInputsTask
+            title={Strings.description}
+            value={description}
+            onChangeText={description => setDescription(description)}
           />
         </View>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-              borderRadius: 25,
-              padding: 20,
-              marginTop: 20,
-              height: 50,
-              borderWidth: 1,
-              borderColor: Colors.WHITE,
-              justifyContent: 'center',
-              backgroundColor: Colors.WHITE,
-            }}>
-            {/* <TextInput placeholder="Enter name" /> */}
-          </View>
+        <View style={styles.child_comp}>
+          <DropdownComponent />
+        </View>
+        <View style={styles.child_comp}>
+          <Button
+            title={Strings.save_task}
+            onPress={() => navigateToDashboard()}
+          />
         </View>
       </View>
     </Modal>

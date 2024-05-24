@@ -16,7 +16,8 @@ const Strings = {
   title: 'Title',
   description: 'Description',
   assignee: 'Assignee',
-  create: 'Create a new task'
+  create: 'Create a new task',
+  save_task: 'Save Task',
 };
 
 export default Strings;

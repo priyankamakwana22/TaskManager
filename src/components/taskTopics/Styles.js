@@ -3,20 +3,21 @@ import Colors from '../../themes/Colors';
 import FontSize from '../../themes/FontSize';
 
 const styles = StyleSheet.create({
-  btn: {
-    backgroundColor: Colors.GREEN,
-    height: 50,
+  container: {
+    backgroundColor: Colors.LINK,
+    borderRadius: 1,
+    borderColor: Colors.LINK,
+    borderRadius: 30,
     width: '90%',
-    alignItems: 'center',
+    marginTop: 40,
+    height: 40,
     justifyContent: 'center',
-    marginTop: 60,
-    borderRadius: 8,
+    alignItems: 'center',
   },
-  btn_text: {
-    fontSize: FontSize.FONT_BUTTON,
+  txt: {
+    fontSize: FontSize.FONT_SUB_TITLE,
+    fontWeight: '600',
     color: Colors.WHITE,
-    fontWeight: 'bold',
-    letterSpacing: 1,
   },
 });
 

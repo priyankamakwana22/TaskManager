@@ -3,26 +3,23 @@ import Colors from '../../themes/Colors';
 import FontSize from '../../themes/FontSize';
 
 const styles = StyleSheet.create({
-  btn: {
-    position: 'absolute',
-    bottom: 5,
+  plusBtn: {
     height: 60,
-    width: 200,
-    borderRadius: 10,
-    margin: 20,
-    backgroundColor: Colors.GREEN,
+    width: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 30,
-    flexDirection: 'row',
-    gap: 15,
+    backgroundColor: Colors.LINK,
+    borderRadius: 50,
+    bottom: 20,
+    right: 20,
+    position: 'absolute',
+    elevation: 10,
   },
   btn_text: {
     color: Colors.WHITE,
     fontSize: FontSize.FONT_BUTTON,
     fontWeight: '600',
   },
-  
 });
 
 export default styles;

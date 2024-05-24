@@ -7,6 +7,8 @@ import Button from '../../components/button/Button';
 import LinkLine from '../../components/linkLine/LinkLine';
 import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../../redux/actions/Actions';
+import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
@@ -63,44 +65,51 @@ const Register = ({navigation}) => {
   };
 
   return (
-    <View style={Global.container}>
-      <Text style={Global.title}>{Strings.welcome}</Text>
-      <Text style={Global.sub_title}>{Strings.lets}</Text>
-      <TextInputs
-        placeholder={Strings.name}
-        value={name}
-        onChangeText={name => setName(name)}
-      />
-      <TextInputs
-        placeholder={Strings.username}
-        value={userName}
-        onChangeText={userName => setUserName(userName)}
-      />
-      <TextInputs
-        placeholder={Strings.email}
-        value={email}
-        keyboardType="email-address"
-        onChangeText={email => setEmail(email)}
-      />
-      <TextInputs
-        placeholder={Strings.password}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={password => setPassword(password)}
-      />
-      <TextInputs
-        placeholder={Strings.cpassword}
-        secureTextEntry={true}
-        value={cpassword}
-        onChangeText={cpassword => setCPassword(cpassword)}
-      />
-      <Button title={Strings.register} onPress={() => registerUserOnClick()} />
-      <LinkLine
-        text={Strings.already}
-        linkText={Strings.signIn}
-        onPress={() => navigateToLogin()}
-      />
-    </View>
+    <KeyboardAvoidingScrollView>
+      <ScrollView>
+        <View style={Global.container}>
+          <Text style={Global.title}>{Strings.welcome}</Text>
+          <Text style={Global.sub_title}>{Strings.lets}</Text>
+          <TextInputs
+            placeholder={Strings.name}
+            value={name}
+            onChangeText={name => setName(name)}
+          />
+          <TextInputs
+            placeholder={Strings.username}
+            value={userName}
+            onChangeText={userName => setUserName(userName)}
+          />
+          <TextInputs
+            placeholder={Strings.email}
+            value={email}
+            keyboardType="email-address"
+            onChangeText={email => setEmail(email)}
+          />
+          <TextInputs
+            placeholder={Strings.password}
+            secureTextEntry={true}
+            value={password}
+            onChangeText={password => setPassword(password)}
+          />
+          <TextInputs
+            placeholder={Strings.cpassword}
+            secureTextEntry={true}
+            value={cpassword}
+            onChangeText={cpassword => setCPassword(cpassword)}
+          />
+          <Button
+            title={Strings.register}
+            onPress={() => registerUserOnClick()}
+          />
+          <LinkLine
+            text={Strings.already}
+            linkText={Strings.signIn}
+            onPress={() => navigateToLogin()}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingScrollView>
   );
 };
 

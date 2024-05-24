@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import Strings from '../../constant/Strings';
 import Global from '../../utils/Global';
 import TextInputs from '../../components/textInputs/TextInputs';
@@ -9,7 +9,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {authLogin} from '../../redux/actions/Actions';
 
 const Login = ({navigation}) => {
-  console.log('🚀 ~ Login ~ navigation:', navigation);
   const {registerData} = useSelector(state => state.registerReducer);
   const loggedIn = useSelector(state => state.authReducer);
   console.log('🚀 ~ Login ~ loggedIn:', loggedIn);
@@ -20,14 +19,21 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const navigateToTasks = () => {
-    const user = registerData.find(
-      user => user.UserName === userName && user.Password === password,
-    );
-    console.log('sssss', user);
-    if (user) {
-      console.log('Login valid');
-      navigation.replace('Tasks');
-      dispatch(authLogin(true));
+    if (userName === '') {
+      Alert.alert('Warning', 'Please enter your username');
+    } else if (password === '') {
+      Alert.alert('Warning', 'Please enter your password');
+    } else {
+      const user = registerData.find(
+        user => user.UserName === userName && user.Password === password,
+      );
+      if (user) {
+        console.log('Login valid');
+        navigation.replace('Tasks');
+        dispatch(authLogin(true));
+      } else {
+        Alert.alert('User not found', 'Please register before logging in');
+      }
     }
   };
   const navigateToRegister = () => {

@@ -6,10 +6,9 @@ import {useNavigation} from '@react-navigation/native';
 
 const LogoutButton = () => {
   const {loggedIn} = useSelector(state => state.authReducer);
-  console.log('🚀 ~ Stack ~ loggedIn:===>', loggedIn);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  console.log('🚀 ~ LogoutButton ~ navigation:', navigation);
 
   const logOut = () => {
     dispatch(authLogin(false));

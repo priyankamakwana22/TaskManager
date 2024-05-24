@@ -1,6 +1,6 @@
 import {Pressable, Text, View} from 'react-native';
-import styles from './styles';
-const LinkLine = (props) => {
+import styles from './Styles';
+const LinkLine = props => {
   return (
     <View style={styles.link_view}>
       <Text style={styles.link_text1}>{props.text}</Text>

@@ -1,29 +1,61 @@
 import {View, Text, Modal, TextInput, Pressable, Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Strings from '../../constant/Strings';
-import {useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import styles from './Style';
 import DropdownComponent from '../dropDownStatus/DropDownStatus';
 import Button from '../button/Button';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  addTask,
-  registerUser,
-  setSelectedAssignee,
-} from '../../redux/actions/Actions';
+import {addTask, isUpdate} from '../../redux/actions/Actions';
 import TextInputsTask from '../textInputsTask/TextInputsTask';
+import RadioGroup from 'react-native-radio-buttons-group';
+import Colors from '../../themes/Colors';
 
 const ModalTask = props => {
+  const {taskData} = useSelector(state => state.addTaskReducer);
+  const {status} = useSelector(state => state.isUpdateReducer);
+  const {id} = useSelector(state => state.getTaskIdReducer);
+  console.log('🚀 ~ ModalTask ~ id:', id);
+  console.log('🚀 ~ ModalTask ~ status:', status);
+  // console.log('🚀 ~ ModalTask ~ registerData:', registerData);
+  console.log('🚀 ~ ModalTask ~ taskData:', taskData.id);
+  const [value, setValue] = useState(null);
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const {taskData} = useSelector(state => state.addTaskReducer);
-  const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ ModalTask ~ registerData:', registerData);
-  console.log('🚀 ~ ModalTask ~ taskData:', taskData);
-  const [value, setValue] = useState(null);
-  const dispatch = useDispatch();
+  if (status) {
+    dispatch(isUpdate(false));
+    const data = taskData.find(item => item.id === id);
+    console.log('🚀 ~ ModalTask ~ data:', data);
+    setTitle(data.Title);
+    setDescription(data.Description);
+  }
+
+  const radioButtons = useMemo(
+    () => [
+      {
+        id: '1', // acts as primary key, should be unique and non-empty string
+        label: 'In Progress',
+        value: 'In Progress',
+      },
+      {
+        id: '2',
+        label: 'Testing',
+        value: 'Testing',
+      },
+      {
+        id: '3',
+        label: 'Done',
+        value: 'Done',
+      },
+    ],
+    [],
+  );
+
+  const [selectedId, setSelectedId] = useState();
 
   const navigation = useNavigation();
   const navigateToDashboard = () => {
@@ -37,12 +69,14 @@ const ModalTask = props => {
         Title: title,
         Description: description,
         DDValue: value.label,
+        status: 'todo',
       };
 
       let newTask;
       newTask = [...taskData, userTask];
       dispatch(addTask(newTask));
       navigation.replace('Tasks');
+      dispatch(isUpdate(false));
     }
   };
 
@@ -50,19 +84,23 @@ const ModalTask = props => {
     <Modal
       visible={props.openModal}
       transparent
-      onRequestClose={() => props.setOpenModal(false)}
+      onRequestClose={() => [
+        props.setOpenModal(false),
+        dispatch(isUpdate(false)),
+      ]}
       animationType="slide"
       hardwareAccelerated>
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.back_icon}>
             <Pressable
-              onPress={() =>
+              onPress={() => {
                 navigation.reset({
                   index: 0,
                   routes: [{name: 'Tasks'}],
-                })
-              }>
+                });
+                dispatch(isUpdate(false));
+              }}>
               <Ionicons
                 name={'chevron-back-outline'}
                 size={34}
@@ -93,6 +131,21 @@ const ModalTask = props => {
             setDropDown={item => setValue(item)}
           />
         </View>
+
+        {status ? (
+          <RadioGroup
+            containerStyle={{
+              flexDirection: 'row',
+              marginLeft: 10,
+              marginTop: 10,
+            }}
+            labelStyle={{color: Colors.BLACK}}
+            radioButtons={radioButtons}
+            onPress={setSelectedId}
+            selectedId={selectedId}
+          />
+        ) : null}
+
         <View style={styles.child_comp}>
           <Button
             title={Strings.save_task}

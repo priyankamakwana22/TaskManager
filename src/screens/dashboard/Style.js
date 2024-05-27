@@ -3,6 +3,9 @@ import Colors from '../../themes/Colors';
 import FontSize from '../../themes/FontSize';
 
 const styles = StyleSheet.create({
+  cont: {
+    flex: 1,
+  },
   plusBtn: {
     height: 60,
     width: 60,

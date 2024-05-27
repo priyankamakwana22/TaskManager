@@ -6,11 +6,17 @@ import {useState} from 'react';
 import Button from '../../components/button/Button';
 import LinkLine from '../../components/linkLine/LinkLine';
 import {useDispatch, useSelector} from 'react-redux';
-import {authLogin} from '../../redux/actions/Actions';
+import {authLogin, setLoggedInUsername} from '../../redux/actions/Actions';
+import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Login = ({navigation, setUName}) => {
   const {registerData} = useSelector(state => state.registerReducer);
   console.log('🚀 ~ Login ~ registerData:', registerData);
+  const loggedInUsername = useSelector(
+    state => state.setLoggedInUsernameReducer,
+  );
+
   const loggedIn = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
@@ -29,6 +35,7 @@ const Login = ({navigation, setUName}) => {
       if (user) {
         navigation.replace('Tasks');
         dispatch(authLogin(true));
+        dispatch(setLoggedInUsername(userName));
       } else {
         Alert.alert('User not found', 'Please register before logging in');
       }
@@ -39,29 +46,33 @@ const Login = ({navigation, setUName}) => {
   };
 
   return (
-    <View style={Global.container}>
-      <Text style={Global.title}>{Strings.login}</Text>
-      <Text style={Global.sub_title}>{Strings.please}</Text>
+    <KeyboardAvoidingScrollView>
+      <ScrollView>
+        <View style={Global.container}>
+          <Text style={Global.title}>{Strings.login}</Text>
+          <Text style={Global.sub_title}>{Strings.please}</Text>
 
-      <TextInputs
-        placeholder={Strings.username}
-        value={userName}
-        onChangeText={userName => setUserName(userName)}
-      />
+          <TextInputs
+            placeholder={Strings.username}
+            value={userName}
+            onChangeText={userName => setUserName(userName)}
+          />
 
-      <TextInputs
-        placeholder={Strings.password}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={password => setPassword(password)}
-      />
-      <Button title={Strings.login} onPress={() => navigateToTasks()} />
-      <LinkLine
-        text={Strings.dont}
-        linkText={Strings.signUp}
-        onPress={navigateToRegister}
-      />
-    </View>
+          <TextInputs
+            placeholder={Strings.password}
+            secureTextEntry={true}
+            value={password}
+            onChangeText={password => setPassword(password)}
+          />
+          <Button title={Strings.login} onPress={() => navigateToTasks()} />
+          <LinkLine
+            text={Strings.dont}
+            linkText={Strings.signUp}
+            onPress={navigateToRegister}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingScrollView>
   );
 };
 

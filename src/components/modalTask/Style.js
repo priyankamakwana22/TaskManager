@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
   },
   bottom_view: {alignItems: 'center'},
-  child_comp: {justifyContent: 'center', alignItems: 'center'},
+  child_comp: {justifyContent: 'center', alignItems: 'center', marginTop: 10},
 });
 
 export default styles;

@@ -6,13 +6,21 @@ import {useState} from 'react';
 import Button from '../../components/button/Button';
 import LinkLine from '../../components/linkLine/LinkLine';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser} from '../../redux/actions/Actions';
+import {
+  authLogin,
+  registerUser,
+  setLoggedInUsername,
+} from '../../redux/actions/Actions';
 import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
   console.log('🚀 ~ Register ~ registerData:', registerData);
+  const loggedInUsername = useSelector(
+    state => state.setLoggedInUsernameReducer,
+  );
+  console.log('🚀 ~ Register ~ loggedInUsername:', loggedInUsername);
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -46,6 +54,11 @@ const Register = ({navigation}) => {
       Alert.alert('Warning', 'Email is not proper');
     } else if (password !== cpassword) {
       Alert.alert('Warning', 'Password do not match');
+    } else if (registerData.map(item => item.UserName === userName)) {
+      Alert.alert(
+        'Warning',
+        'Username already exists please enter a different username',
+      );
     } else {
       const userData = {
         id: Date.now(),
@@ -54,12 +67,13 @@ const Register = ({navigation}) => {
         Email: email,
         Password: password,
         CPassword: cpassword,
-        tasks: [],
       };
 
       let newUser;
       newUser = [...registerData, userData];
       dispatch(registerUser(newUser));
+      dispatch(authLogin(true));
+      dispatch(setLoggedInUsername(userName));
       navigation.replace('Tasks');
     }
   };

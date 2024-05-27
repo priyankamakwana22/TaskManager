@@ -8,10 +8,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import Colors from '../themes/Colors';
 import LogoutButton from '../components/logoutButton/logoutButton';
 import DropdownComponent from '../components/dropDownStatus/DropDownStatus';
+import TaskList from '../components/tasksList/TaskList';
 
 const Stack = () => {
   const {loggedIn} = useSelector(state => state.authReducer);
   console.log('🚀 ~ Stack ~ loggedIn:===>', loggedIn);
+
+  const {status} = useSelector(state => state.isUpdateReducer);
 
   const Stack = createStackNavigator();
 
@@ -27,11 +30,6 @@ const Stack = () => {
           options={{headerShown: false}}
           name="Register"
           component={Register}
-        />
-        <Stack.Screen
-          options={{headerShown: false}}
-          name="DropDown"
-          component={DropdownComponent}
         />
         <Stack.Screen
           name="Tasks"

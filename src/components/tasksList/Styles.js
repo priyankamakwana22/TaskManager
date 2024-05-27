@@ -3,27 +3,33 @@ import Colors from '../../themes/Colors';
 import FontSize from '../../themes/FontSize';
 
 const styles = StyleSheet.create({
-  //flatlist
+  touchableView: {
+    flex: 1,
+  },
   flView: {
-    borderColor: Colors.LINK,
-    borderWidth: 1,
-    // flex: 1,
-    borderRadius: 5,
     margin: 20,
-    padding: 15,
-    // alignItems: 'center',
-    // justifyContent:'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: Colors.LIGHT_GREEN,
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
-  listTitle: {
+  txtView: {flex: 0.9},
+  taskTitle: {
+    color: Colors.BLACK,
+    fontSize: FontSize.FONT_TITLE,
+  },
+  taskDesc: {
+    color: Colors.BLACK,
     fontSize: FontSize.FONT_SUB_TITLE,
-    fontWeight: '500',
-    color: Colors.BLACK,
   },
-  listDesc: {
-    fontSize: FontSize.FONT_BUTTON,
-    color: Colors.BLACK,
-    marginLeft: 15,
-    marginTop: 10,
+  trash: {
+    flex: 0.1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

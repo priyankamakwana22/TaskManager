@@ -7,7 +7,7 @@ const initialState = {
 const isUpdateReducer = (state = initialState, action) => {
   switch (action.type) {
     case IS_UPDATE:
-      return {status: (state.status = action.payload)};
+      return {...state, status: action.payload};
     default:
       return state;
   }

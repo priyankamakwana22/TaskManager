@@ -19,16 +19,18 @@ const ModalTask = props => {
   console.log('🚀 ~ ModalTask ~ id:', id);
   console.log('🚀 ~ ModalTask ~ status:', status);
   // console.log('🚀 ~ ModalTask ~ registerData:', registerData);
-  console.log('🚀 ~ ModalTask ~ taskData:', taskData.id);
+  console.log('🚀 ~ ModalTask ~ taskData:', taskData);
   const [value, setValue] = useState(null);
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [radioButtonVisible, setRadioButtonVisible] = useState(false);
 
   if (status) {
+    setRadioButtonVisible(true);
     dispatch(isUpdate(false));
-    const data = taskData.find(item => item.id === id);
+    let data = taskData.find(item => item.id === id);
     console.log('🚀 ~ ModalTask ~ data:', data);
     setTitle(data.Title);
     setDescription(data.Description);
@@ -77,6 +79,8 @@ const ModalTask = props => {
       dispatch(addTask(newTask));
       navigation.replace('Tasks');
       dispatch(isUpdate(false));
+
+      setRadioButtonVisible(false);
     }
   };
 
@@ -131,8 +135,7 @@ const ModalTask = props => {
             setDropDown={item => setValue(item)}
           />
         </View>
-
-        {status ? (
+        {radioButtonVisible ? (
           <RadioGroup
             containerStyle={{
               flexDirection: 'row',
@@ -145,7 +148,6 @@ const ModalTask = props => {
             selectedId={selectedId}
           />
         ) : null}
-
         <View style={styles.child_comp}>
           <Button
             title={Strings.save_task}

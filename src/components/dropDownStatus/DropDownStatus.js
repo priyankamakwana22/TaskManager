@@ -8,7 +8,14 @@ import styles from './Styles';
 
 const DropdownComponent = ({dropDownValue, setDropDown}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  const data = registerData.map(item => ({
+  const loggedInUsername = useSelector(
+    state => state.setLoggedInUsernameReducer,
+  );
+  console.log('🚀 ~ ModalTask ~ loggedInUsername:', loggedInUsername);
+  const filteredData = registerData.filter(
+    item => item.UserName !== loggedInUsername.loggedInUsername,
+  );
+  const data = filteredData.map(item => ({
     label: item.UserName,
     value: item.id,
   }));

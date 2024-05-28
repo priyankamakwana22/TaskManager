@@ -16,12 +16,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ Register ~ registerData:', registerData);
+  console.log('🚀 ~ Register ~ registerData:', registerData.length);
   const loggedInUsername = useSelector(
     state => state.setLoggedInUsernameReducer,
   );
   console.log('🚀 ~ Register ~ loggedInUsername:', loggedInUsername);
   const dispatch = useDispatch();
+  const valuu = registerData.map(item => item.UserName === userName);
+  console.log('🚀 ~ Register ~ valuu:', valuu);
 
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
@@ -54,7 +56,10 @@ const Register = ({navigation}) => {
       Alert.alert('Warning', 'Email is not proper');
     } else if (password !== cpassword) {
       Alert.alert('Warning', 'Password do not match');
-    } else if (registerData.map(item => item.UserName === userName)) {
+    } else if (
+      registerData.length > 0 &&
+      registerData.find(item => item.UserName === userName)
+    ) {
       Alert.alert(
         'Warning',
         'Username already exists please enter a different username',

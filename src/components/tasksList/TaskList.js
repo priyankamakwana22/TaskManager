@@ -13,13 +13,13 @@ const TaskList = props => {
   );
   const {status} = useSelector(state => state.isUpdateReducer);
   const dispatch = useDispatch();
-  console.log('🚀 ~ TaskList ~ status:', status);
+  console.log('🚀 ~ TaskList ~ status:', taskData);
 
   const {registerData} = useSelector(state => state.registerReducer);
   console.log('🚀 ~ ', taskData);
   const handleClickOnTodo = id => {
     dispatch(isUpdate(true));
-    props.openModal(id);
+    props.openModal();
     dispatch(getTaskId(id));
   };
 

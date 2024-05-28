@@ -10,7 +10,7 @@ import {authLogin, setLoggedInUsername} from '../../redux/actions/Actions';
 import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 
-const Login = ({navigation, setUName}) => {
+const Login = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
   console.log('🚀 ~ Login ~ registerData:', registerData);
   const loggedInUsername = useSelector(

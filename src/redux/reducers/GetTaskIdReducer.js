@@ -7,7 +7,7 @@ const initialState = {
 const getTaskIdReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TASK_ID:
-      return {...state, id: (state.id = action.payload)};
+      return {...state, id: action.payload};
     default:
       return state;
   }

@@ -3,36 +3,41 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import styles from './Styles';
-import {addTask, getTaskId, isUpdate} from '../../redux/actions/Actions';
+import {
+  addTask,
+  getTaskId,
+  isUpdate,
+  updateTask,
+} from '../../redux/actions/Actions';
 
 const TaskList = props => {
-  console.log('🚀 ~ TaskList ~ props:', props);
   const {taskData} = useSelector(state => state.addTaskReducer);
+  console.log('🚀 ~ TaskList ~ taskData:', taskData);
   const {loggedInUsername} = useSelector(
     state => state.setLoggedInUsernameReducer,
   );
-  const {status} = useSelector(state => state.isUpdateReducer);
   const dispatch = useDispatch();
-  console.log('🚀 ~ TaskList ~ status:', taskData);
 
-  const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ ', taskData);
+  // when a task is clicked
   const handleClickOnTodo = id => {
-    dispatch(isUpdate(true));
+    // dispatch(updateTask(true));
     props.openModal();
     dispatch(getTaskId(id));
+    dispatch(isUpdate(true));
+    dispatch(updateTask(true));
   };
 
+  // to delete a task
   const deleteTask = id => {
     const filteredTasks = taskData.filter(task => task.id !== id);
-    console.log('🚀 ~ deleteTask ~ filteredTasks:', filteredTasks);
     dispatch(addTask(filteredTasks));
     Alert.alert('Deleted', 'Task deleted successfully');
   };
+
   return (
     <View>
       <FlatList
-        data={taskData}
+        data={props.tasks}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) =>
           item.DDValue === loggedInUsername ? (
@@ -54,7 +59,6 @@ const TaskList = props => {
           ) : null
         }
       />
-      {/* </TouchableOpacity> */}
     </View>
   );
 };

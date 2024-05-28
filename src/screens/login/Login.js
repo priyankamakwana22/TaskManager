@@ -1,4 +1,4 @@
-import {Alert, Text, View} from 'react-native';
+import {Alert, Keyboard, Text, View} from 'react-native';
 import Strings from '../../constant/Strings';
 import Global from '../../utils/Global';
 import TextInputs from '../../components/textInputs/TextInputs';
@@ -12,17 +12,12 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const Login = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ Login ~ registerData:', registerData);
-  const loggedInUsername = useSelector(
-    state => state.setLoggedInUsernameReducer,
-  );
-
-  const loggedIn = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
+  // register a user
   const navigateToTasks = () => {
     if (userName === '') {
       Alert.alert('Warning', 'Please enter your username');
@@ -42,6 +37,7 @@ const Login = ({navigation}) => {
     }
   };
   const navigateToRegister = () => {
+    Keyboard.dismiss();
     navigation.navigate('Register');
   };
 

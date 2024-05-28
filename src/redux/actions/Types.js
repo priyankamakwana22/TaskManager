@@ -5,3 +5,4 @@ export const SELECTED_ASSIGNEE = 'SELECTED_ASSIGNEE';
 export const LOGGED_IN_USERNAME = 'LOGGED_IN_USERNAME';
 export const IS_UPDATE = 'IS_UPDATE';
 export const GET_TASK_ID = 'GET_TASK_ID';
+export const UPDATE_TASK = 'UPDATE_TASK';

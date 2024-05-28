@@ -6,7 +6,6 @@ const Global = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: Colors.BACKGROUND,
   },
   title: {

@@ -5,8 +5,6 @@ import {authLogin} from '../../redux/actions/Actions';
 import {useNavigation} from '@react-navigation/native';
 
 const LogoutButton = () => {
-  const {loggedIn} = useSelector(state => state.authReducer);
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -18,7 +16,7 @@ const LogoutButton = () => {
     });
   };
   return (
-    <Pressable onPress={() => logOut()}>
+    <Pressable style={{marginRight: 15}} onPress={() => logOut()}>
       <FontAwesome5 name={'logout'} size={24} color={'white'} />
     </Pressable>
   );

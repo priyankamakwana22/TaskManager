@@ -16,14 +16,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
-  console.log('🚀 ~ Register ~ registerData:', registerData.length);
-  const loggedInUsername = useSelector(
-    state => state.setLoggedInUsernameReducer,
-  );
-  console.log('🚀 ~ Register ~ loggedInUsername:', loggedInUsername);
   const dispatch = useDispatch();
-  const valuu = registerData.map(item => item.UserName === userName);
-  console.log('🚀 ~ Register ~ valuu:', valuu);
 
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
@@ -39,14 +32,16 @@ const Register = ({navigation}) => {
   //   Register user if they are new
   const registerUserOnClick = () => {
     //Validations for input fields
-    if (
-      userName === '' ||
-      name === '' ||
-      email === '' ||
-      password === '' ||
-      cpassword === ''
-    ) {
-      Alert.alert('Please fill the empty text field');
+    if (name === '') {
+      Alert.alert('Name is empty', 'Please enter a valid name');
+    } else if (userName === '') {
+      Alert.alert('Username is empty', 'Please enter a username');
+    } else if (email === '') {
+      Alert.alert('Email is empty', 'Please enter a valid email');
+    } else if (password === '') {
+      Alert.alert('Password is empty', 'Please enter a valid password');
+    } else if (cpassword === '') {
+      Alert.alert('Confirm your password', 'Please enter your password again');
     } else if (userName.length < 2) {
       Alert.alert(
         'Warning',

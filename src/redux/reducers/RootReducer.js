@@ -6,6 +6,7 @@ import selectedAssigneeReducer from './SelectedAssigneeReducer';
 import setLoggedInUsernameReducer from './SetLoggedInUsername';
 import isUpdateReducer from './IsUpdateReducer';
 import getTaskIdReducer from './GetTaskIdReducer';
+import updateTaskReducer from './UpdateTaskReducer';
 
 const rootReducer = combineReducers({
   registerReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   setLoggedInUsernameReducer,
   isUpdateReducer,
   getTaskIdReducer,
+  updateTaskReducer,
 });
 
 export default rootReducer;

@@ -11,7 +11,6 @@ const DropdownComponent = ({dropDownValue, setDropDown}) => {
   const loggedInUsername = useSelector(
     state => state.setLoggedInUsernameReducer,
   );
-  console.log('🚀 ~ ModalTask ~ loggedInUsername:', loggedInUsername);
   const filteredData = registerData.filter(
     item => item.UserName !== loggedInUsername.loggedInUsername,
   );
@@ -38,7 +37,7 @@ const DropdownComponent = ({dropDownValue, setDropDown}) => {
     <View style={styles.container}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: Colors.LINK}]}
+        style={[styles.dropdown, isFocus && styles.ddLink]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}

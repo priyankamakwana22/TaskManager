@@ -1,6 +1,5 @@
 import {Pressable, Text} from 'react-native';
 import styles from './Style';
-import {useNavigation} from '@react-navigation/native';
 
 const Button = props => {
   return (

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import Colors from '../../themes/Colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  ddLink: {borderColor: Colors.LINK},
 });
 
 export default styles;

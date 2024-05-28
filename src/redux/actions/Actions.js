@@ -7,6 +7,7 @@ import {
   OPEN_MODAL,
   REGISTER_USER,
   SELECTED_ASSIGNEE,
+  UPDATE_TASK,
 } from './Types';
 
 export const registerUser = userData => ({
@@ -42,4 +43,9 @@ export const isUpdate = status => ({
 export const getTaskId = id => ({
   type: GET_TASK_ID,
   payload: id,
+});
+
+export const updateTask = update => ({
+  type: UPDATE_TASK,
+  payload: update,
 });

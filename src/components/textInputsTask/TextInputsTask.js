@@ -6,11 +6,7 @@ const TextInputsTask = props => {
     <View style={styles.container}>
       <Text style={styles.input_title}>{props.title}</Text>
       <View style={styles.input_view}>
-        <TextInput
-          // placeholderTextColor={Colors.GRAY}
-          style={styles.input}
-          {...props}
-        />
+        <TextInput style={styles.input} {...props} />
       </View>
     </View>
   );

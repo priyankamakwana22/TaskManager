@@ -1,55 +1,63 @@
-import {View, Text, Modal, TextInput, Pressable, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Modal,
+  TextInput,
+  Pressable,
+  Alert,
+  Keyboard,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Strings from '../../constant/Strings';
-import {useEffect, useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import styles from './Style';
 import DropdownComponent from '../dropDownStatus/DropDownStatus';
 import Button from '../button/Button';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {addTask, isUpdate} from '../../redux/actions/Actions';
+import {addTask, isUpdate, updateTask} from '../../redux/actions/Actions';
 import TextInputsTask from '../textInputsTask/TextInputsTask';
 import RadioGroup from 'react-native-radio-buttons-group';
 import Colors from '../../themes/Colors';
 
 const ModalTask = props => {
   const {taskData} = useSelector(state => state.addTaskReducer);
+
   const {status} = useSelector(state => state.isUpdateReducer);
   const {id} = useSelector(state => state.getTaskIdReducer);
-  console.log('🚀 ~ ModalTask ~ id:', id);
-  console.log('🚀 ~ ModalTask ~ status:', status);
-  // console.log('🚀 ~ ModalTask ~ registerData:', registerData);
-  console.log('🚀 ~ ModalTask ~ taskData:', taskData);
+  const {update} = useSelector(state => state.updateTaskReducer);
   const [value, setValue] = useState(null);
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [radioButtonVisible, setRadioButtonVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState();
 
   if (status) {
     setRadioButtonVisible(true);
-    dispatch(isUpdate(false));
     let data = taskData.find(item => item.id === id);
-    console.log('🚀 ~ ModalTask ~ data:', data);
     setTitle(data.Title);
     setDescription(data.Description);
+    setSelectedId(data.status);
+    setValue(data.DDValue);
+    dispatch(isUpdate(false));
   }
 
   const radioButtons = useMemo(
     () => [
       {
-        id: '1', // acts as primary key, should be unique and non-empty string
+        id: '2',
         label: 'In Progress',
         value: 'In Progress',
       },
       {
-        id: '2',
+        id: '3',
         label: 'Testing',
         value: 'Testing',
       },
       {
-        id: '3',
+        id: '4',
         label: 'Done',
         value: 'Done',
       },
@@ -57,30 +65,51 @@ const ModalTask = props => {
     [],
   );
 
-  const [selectedId, setSelectedId] = useState();
-
   const navigation = useNavigation();
   const navigateToDashboard = () => {
+    Keyboard.dismiss();
     if (title === '') {
       Alert.alert('Please enter your title');
     } else if (description === '') {
       Alert.alert('Please enter your title');
     } else {
-      const userTask = {
-        id: taskData.length + 1,
-        Title: title,
-        Description: description,
-        DDValue: value.label,
-        status: 'todo',
-      };
+      if (update) {
+        let updatedTask = {
+          id: id,
+          Title: title,
+          Description: description,
+          DDValue: value || value.label,
+          statusOfTask: selectedId,
+        };
 
-      let newTask;
-      newTask = [...taskData, userTask];
-      dispatch(addTask(newTask));
-      navigation.replace('Tasks');
-      dispatch(isUpdate(false));
+        let newTask = [...taskData];
+        let index = taskData.findIndex(item => item.id === id);
+        if (selectedId !== taskData[index].selectedId) {
+          newTask.splice(index, 1);
+          newTask.push(updatedTask);
+        } else {
+          newTask[index] = updatedTask;
+        }
+        dispatch(addTask(newTask));
+        navigation.replace('Tasks');
+        setRadioButtonVisible(false);
+        dispatch(updateTask(false));
+      } else {
+        const userTask = {
+          id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+          Title: title,
+          Description: description,
+          DDValue: value.label,
+          statusOfTask: '1',
+        };
 
-      setRadioButtonVisible(false);
+        let newTask;
+        newTask = [...taskData, userTask];
+        dispatch(addTask(newTask));
+        navigation.replace('Tasks');
+        dispatch(isUpdate(false));
+        setRadioButtonVisible(false);
+      }
     }
   };
 
@@ -90,7 +119,7 @@ const ModalTask = props => {
       transparent
       onRequestClose={() => [
         props.setOpenModal(false),
-        dispatch(isUpdate(false)),
+        dispatch(updateTask(false)),
       ]}
       animationType="slide"
       hardwareAccelerated>
@@ -103,7 +132,7 @@ const ModalTask = props => {
                   index: 0,
                   routes: [{name: 'Tasks'}],
                 });
-                dispatch(isUpdate(false));
+                dispatch(updateTask(false));
               }}>
               <Ionicons
                 name={'chevron-back-outline'}
@@ -113,7 +142,7 @@ const ModalTask = props => {
             </Pressable>
           </View>
           <View style={styles.heading}>
-            <Text style={styles.heading_text}>New task</Text>
+            <Text style={styles.heading_text}>{Strings.new_task}</Text>
           </View>
           <View style={styles.heading_last_view} />
         </View>
@@ -129,12 +158,14 @@ const ModalTask = props => {
             onChangeText={description => setDescription(description)}
           />
         </View>
+
         <View style={styles.child_comp}>
           <DropdownComponent
             dropDownValue={value}
             setDropDown={item => setValue(item)}
           />
         </View>
+
         {radioButtonVisible ? (
           <RadioGroup
             containerStyle={{

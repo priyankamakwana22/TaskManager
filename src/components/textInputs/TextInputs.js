@@ -1,6 +1,7 @@
-import {TextInput, View} from 'react-native';
+import {Image, Pressable, TextInput, View} from 'react-native';
 import styles from './Style';
 import Colors from '../../themes/Colors';
+import Feather from 'react-native-vector-icons/Feather';
 
 const TextInputs = props => {
   return (

@@ -19,6 +19,7 @@ const Strings = {
   create: 'Create a new task',
   save_task: 'Save Task',
   new_task: 'New Task',
+  update_task: 'Update Task',
 };
 
 export default Strings;

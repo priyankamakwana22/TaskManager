@@ -1,6 +1,6 @@
 import {Pressable} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/AntDesign';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {authLogin} from '../../redux/actions/Actions';
 import {useNavigation} from '@react-navigation/native';
 

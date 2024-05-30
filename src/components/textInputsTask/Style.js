@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width: '100%',
   },
-  input: {color: Colors.BLACK, height: 50, width: '100%'},
+  input: {color: Colors.BLACK, height: 50, width: '100%', padding: 15},
 });
 
 export default styles;

@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import styles from './Styles';
 
 const DropdownComponent = ({dropDownValue, setDropDown}) => {
+  console.log('🚀 ~ DropdownComponent ~ dropDownValue:', dropDownValue);
   const {registerData} = useSelector(state => state.registerReducer);
   const loggedInUsername = useSelector(
     state => state.setLoggedInUsernameReducer,
@@ -14,7 +15,7 @@ const DropdownComponent = ({dropDownValue, setDropDown}) => {
   const filteredData = registerData.filter(
     item => item.UserName !== loggedInUsername.loggedInUsername,
   );
-  const data = filteredData.map(item => ({
+  const data = registerData.map(item => ({
     label: item.UserName,
     value: item.id,
   }));

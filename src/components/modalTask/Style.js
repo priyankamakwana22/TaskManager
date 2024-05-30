@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 60,
+    height: 100,
     backgroundColor: Colors.LINK,
   },
   back_icon: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading_text: {
-    fontSize: FontSize.FONT_TITLE,
+    fontSize: FontSize.FONT_HEADING,
     color: Colors.WHITE,
     fontWeight: '500',
   },

@@ -14,7 +14,6 @@ import {
 import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import PasswordTextInput from '../../components/passwordTextInput/PasswordTextInput';
 
 const Register = ({navigation}) => {
   const {registerData} = useSelector(state => state.registerReducer);
@@ -24,7 +23,7 @@ const Register = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [cpassword, setCPassword] = useState('');
+  const [cPassword, setCPassword] = useState('');
 
   // send to Login if user has already registered
   const navigateToLogin = () => {
@@ -61,9 +60,9 @@ const Register = ({navigation}) => {
       Alert.alert('Warning', 'Email is not proper');
     } else if (password === '') {
       Alert.alert('Password is empty', 'Please enter a valid password');
-    } else if (cpassword === '') {
+    } else if (cPassword === '') {
       Alert.alert('Confirm your password', 'Please enter your password again');
-    } else if (password !== cpassword) {
+    } else if (password !== cPassword) {
       Alert.alert('Warning', 'Password do not match');
     } else {
       const userData = {
@@ -72,7 +71,7 @@ const Register = ({navigation}) => {
         UserName: userName,
         Email: email,
         Password: password,
-        CPassword: cpassword,
+        CPassword: cPassword,
       };
 
       let newUser;
@@ -110,17 +109,20 @@ const Register = ({navigation}) => {
               keyboardType="email-address"
               onChangeText={email => setEmail(email)}
             />
-            <PasswordTextInput
+            <TextInputs
               placeholder={Strings.password}
-              secureTextEntry={true}
               value={password}
+              keyboardType="password"
               onChangeText={password => setPassword(password)}
+              pass={true}
             />
-            <PasswordTextInput
+            <TextInputs
               placeholder={Strings.cpassword}
-              secureTextEntry={true}
-              value={cpassword}
-              onChangeText={cpassword => setCPassword(cpassword)}
+              value={cPassword}
+              keyboardType="password"
+              // secureTextEntry={true}
+              onChangeText={cPassword => setCPassword(cPassword)}
+              pass={true}
             />
             <Button
               title={Strings.register}

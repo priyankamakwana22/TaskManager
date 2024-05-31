@@ -3,29 +3,13 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import styles from './Styles';
-import {
-  addTask,
-  getTaskId,
-  isUpdate,
-  updateTask,
-} from '../../redux/actions/Actions';
+import {addTask} from '../../redux/actions/Actions';
 
 const TaskList = props => {
-  const {taskData} = useSelector(state => state.addTaskReducer);
-  console.log('🚀 ~ TaskList ~ taskData:', taskData);
-  const {loggedInUsername} = useSelector(
-    state => state.setLoggedInUsernameReducer,
-  );
-  const dispatch = useDispatch();
+  const taskData = props.taskData;
+  const loggedInUsername = props.loggedInUsername;
 
-  // when a task is clicked
-  const handleClickOnTodo = id => {
-    // dispatch(updateTask(true));
-    props.openModal();
-    dispatch(getTaskId(id));
-    dispatch(isUpdate(true));
-    dispatch(updateTask(true));
-  };
+  const dispatch = useDispatch();
 
   // to delete a task
   const deleteTask = id => {
@@ -68,7 +52,7 @@ const TaskList = props => {
           item.DDValue === loggedInUsername ? (
             <TouchableOpacity
               style={styles.touchableView}
-              onPress={() => handleClickOnTodo(item.id)}>
+              onPress={() => props.openModal(item)}>
               <View style={styles.flView}>
                 <View style={styles.txtView}>
                   <Text numberOfLines={1} style={styles.taskTitle}>

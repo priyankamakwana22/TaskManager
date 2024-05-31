@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 100,
+    height: 60,
     backgroundColor: Colors.LINK,
   },
   back_icon: {

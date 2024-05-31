@@ -1,20 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Colors from '../../themes/Colors';
-import {useSelector} from 'react-redux';
 import styles from './Styles';
+import Strings from '../../constant/Strings';
 
-const DropdownComponent = ({dropDownValue, setDropDown}) => {
-  console.log('🚀 ~ DropdownComponent ~ dropDownValue:', dropDownValue);
-  const {registerData} = useSelector(state => state.registerReducer);
-  const loggedInUsername = useSelector(
-    state => state.setLoggedInUsernameReducer,
-  );
-  const filteredData = registerData.filter(
-    item => item.UserName !== loggedInUsername.loggedInUsername,
-  );
+const DropdownComponent = ({dropDownValue, setDropDown, registerData}) => {
   const data = registerData.map(item => ({
     label: item.UserName,
     value: item.id,
@@ -27,7 +19,7 @@ const DropdownComponent = ({dropDownValue, setDropDown}) => {
     if (dropDownValue || isFocus) {
       return (
         <Text style={[styles.label, isFocus && {color: Colors.GREEN}]}>
-          Assign task to
+          {Strings.assign_to}
         </Text>
       );
     }
@@ -61,7 +53,7 @@ const DropdownComponent = ({dropDownValue, setDropDown}) => {
         renderLeftIcon={() => (
           <Fontisto
             style={styles.icon}
-            color={isFocus ? 'blue' : 'black'}
+            color={isFocus ? Colors.LINK : Colors.BLACK}
             name="person"
             size={18}
           />

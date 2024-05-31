@@ -1,4 +1,4 @@
-import {AUTH_LOGIN} from '../actions/Types';
+import {AUTH_LOGIN, GET_TASK_ID} from '../actions/Types';
 
 const initialState = {
   loggedIn: false,

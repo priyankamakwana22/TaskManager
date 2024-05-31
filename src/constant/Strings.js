@@ -20,6 +20,11 @@ const Strings = {
   save_task: 'Save Task',
   new_task: 'New Task',
   update_task: 'Update Task',
+  assign_to: 'Assign task to',
+  todo: 'To Do',
+  inProgress: 'In Progress',
+  testing: 'Testing',
+  done: 'Done',
 };
 
 export default Strings;

@@ -7,14 +7,16 @@ import TaskTopics from '../../components/taskTopics/TaskTopics';
 import {ScrollView} from 'react-native-gesture-handler';
 import TaskList from '../../components/tasksList/TaskList';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateTask} from '../../redux/actions/Actions';
-import Global from '../../utils/Global';
+import Strings from '../../constant/Strings';
 
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Dashboard = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedTodoItem, setSelectedTodoItem] = useState({});
+  const [radioButtonVisible, setRadioButtonVisible] = useState(false);
+
   const {taskData} = useSelector(state => state.addTaskReducer);
   const todoData = taskData.filter(item => item.statusOfTask === '1');
+
   const {loggedInUsername} = useSelector(
     state => state.setLoggedInUsernameReducer,
   );
@@ -22,16 +24,25 @@ const Dashboard = () => {
   let testingData = taskData.filter(item => item.statusOfTask === '3');
   let doneData = taskData.filter(item => item.statusOfTask === '4');
 
-  const filterData = (data, status) => {
-    data.filter(item => item.statusOfTask === status);
+  const filterData = status => {
+    taskData.filter(item => item.statusOfTask === status);
   };
   const dispatch = useDispatch();
 
-  const openModalView = () => {
+  const openModalView = (item, update) => {
+    console.log('🚀 ~ openModalView ~ update:', update);
+    console.log('🚀 ~ openModalView ~ item:', item);
+    setSelectedTodoItem({});
+    setRadioButtonVisible(false);
+    if (item) {
+      setSelectedTodoItem(item);
+      setRadioButtonVisible(true);
+    }
     Keyboard.dismiss();
     setOpenModal(true);
-    dispatch(updateTask(false));
   };
+
+  // handle click on todo
 
   return (
     <View style={styles.cont}>
@@ -41,25 +52,47 @@ const Dashboard = () => {
             {loggedInUsername}'s Tasks
           </Text>
           <View>
-            <TaskTopics title="To do" />
-            <TaskList openModal={openModalView} tasks={todoData} />
-            <TaskTopics title="In Progress" />
-            <TaskList openModal={openModalView} tasks={inProgressData} />
-            <TaskTopics title="Testing" />
-            <TaskList openModal={openModalView} tasks={testingData} />
-            <TaskTopics title="Done" />
-            <TaskList openModal={openModalView} tasks={doneData} />
+            <TaskTopics title={Strings.todo} />
+            <TaskList
+              openModal={openModalView}
+              tasks={todoData}
+              taskData={taskData}
+              loggedInUsername={loggedInUsername}
+            />
+            <TaskTopics title={Strings.inProgress} />
+            <TaskList
+              openModal={openModalView}
+              tasks={inProgressData}
+              taskData={taskData}
+              loggedInUsername={loggedInUsername}
+            />
+            <TaskTopics title={Strings.testing} />
+            <TaskList
+              openModal={openModalView}
+              tasks={testingData}
+              taskData={taskData}
+              loggedInUsername={loggedInUsername}
+            />
+            <TaskTopics title={Strings.done} />
+            <TaskList
+              openModal={openModalView}
+              tasks={doneData}
+              taskData={taskData}
+              loggedInUsername={loggedInUsername}
+            />
           </View>
         </View>
       </ScrollView>
-      <Pressable style={styles.plusBtn} onPress={openModalView}>
+      <Pressable style={styles.plusBtn} onPress={() => openModalView()}>
         <FontAwesome5 name={'plus'} size={25} color={'#ffffff'} />
       </Pressable>
       {/* <SafeAreaProvider> */}
       <ModalTask
+        todoItem={selectedTodoItem}
         openModal={openModal}
         setOpenModal={setOpenModal}
         openModalView={openModalView}
+        radioButtonVisible={radioButtonVisible}
       />
       {/* </SafeAreaProvider> */}
     </View>

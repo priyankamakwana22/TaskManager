@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Strings from '../../constant/Strings';
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import styles from './Style';
 import DropdownComponent from '../dropDownStatus/DropDownStatus';
 import Button from '../button/Button';
@@ -19,38 +19,35 @@ import {addTask, isUpdate, updateTask} from '../../redux/actions/Actions';
 import TextInputsTask from '../textInputsTask/TextInputsTask';
 import RadioGroup from 'react-native-radio-buttons-group';
 import Colors from '../../themes/Colors';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const ModalTask = props => {
+  console.log('🚀 ~ ModalTask ~ props:', props);
   const {taskData} = useSelector(state => state.addTaskReducer);
   console.log('🚀 ~ ModalTask ~ taskData:', taskData);
 
-  const {status} = useSelector(state => state.isUpdateReducer);
-  const {id} = useSelector(state => state.getTaskIdReducer);
-  const {update} = useSelector(state => state.updateTaskReducer);
-  console.log('🚀 ~ ModalTask ~ valueAssignee:', valueAssignee);
-  console.log('🚀 ~ ModalTask ~ valueAssignee:', valueAssignee);
+  console.log(props.todoItem);
+  const {registerData} = useSelector(state => state.registerReducer);
+  const loggedInUsername = useSelector(
+    state => state.setLoggedInUsernameReducer,
+  );
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [radioButtonVisible, setRadioButtonVisible] = useState(false);
   const [selectedId, setSelectedId] = useState();
   const [valueAssignee, setValueAssignee] = useState('');
 
-  if (status) {
-    setRadioButtonVisible(true);
-    let data = taskData.find(item => item.id === id);
-    console.log('🚀 ~ ModalTask ~ data:', data.DDValue);
+  useEffect(() => {
+    setTitle(props.todoItem?.Title);
+    setDescription(props.todoItem?.Description);
+    setValueAssignee(props.todoItem?.DDObject);
+  }, [
+    props.todoItem?.Title,
+    props.todoItem?.Description,
+    props.todoItem?.DDObject,
+  ]);
 
-    var updatingTaskId = data.id;
-    setTitle(data.Title);
-    setDescription(data.Description);
-    setSelectedId(data.status);
-    setValueAssignee(data.DDObject);
-    dispatch(isUpdate(false));
-  }
-
+  let updatingTaskId = props.todoItem?.id;
   const radioButtons = useMemo(
     () => [
       {
@@ -72,17 +69,16 @@ const ModalTask = props => {
     [],
   );
 
-  const navigation = useNavigation();
   const navigateToDashboard = () => {
     Keyboard.dismiss();
     if (title === '') {
       Alert.alert('Warning', 'Please enter your title');
     } else if (description === '') {
       Alert.alert('Warning', 'Please enter your Description');
-    } else if (setValueAssignee === '') {
+    } else if (valueAssignee === '') {
       Alert.alert('Warning', 'Please select a assignee for the task');
     } else {
-      if (update) {
+      if (props.radioButtonVisible) {
         let updatedTask = {
           id: updatingTaskId,
           Title: title,
@@ -93,17 +89,15 @@ const ModalTask = props => {
         };
 
         let newTask = [...taskData];
-        let index = taskData.findIndex(item => item.id === id);
-        if (selectedId !== taskData[index].selectedId) {
+        let index = taskData.findIndex(item => item.id === props.todoItem?.id);
+        if (selectedId !== taskData[index].id) {
           newTask.splice(index, 1);
           newTask.push(updatedTask);
         } else {
           newTask[index] = updatedTask;
         }
         dispatch(addTask(newTask));
-        navigation.replace('Tasks');
-        setRadioButtonVisible(false);
-        dispatch(updateTask(false));
+        props.setOpenModal(false);
       } else {
         if (valueAssignee === '') {
           Alert.alert('Warning', 'Please select a assignee');
@@ -120,9 +114,10 @@ const ModalTask = props => {
           let newTask;
           newTask = [...taskData, userTask];
           dispatch(addTask(newTask));
-          navigation.replace('Tasks');
-          dispatch(isUpdate(false));
-          setRadioButtonVisible(false);
+          props.setOpenModal(false);
+          setDescription('');
+          setTitle('');
+          setValueAssignee({});
         }
       }
     }
@@ -142,26 +137,22 @@ const ModalTask = props => {
         <View
           style={[
             styles.header,
-            Platform.OS === 'ios' ? {marginTop: 20} : {marginTop: 50},
+            Platform.OS === 'ios' ? {marginTop: 20} : {marginTop: 0},
           ]}>
           <View style={styles.back_icon}>
             <Pressable
               onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: 'Tasks'}],
-                });
-                dispatch(updateTask(false));
+                props.setOpenModal(false), dispatch(updateTask(false));
               }}>
               <Ionicons
                 name={'chevron-back-outline'}
                 size={34}
-                color={'white'}
+                color={Colors.WHITE}
               />
             </Pressable>
           </View>
           <View style={styles.heading}>
-            {radioButtonVisible ? (
+            {props.radioButtonVisible ? (
               <Text style={styles.heading_text}>{Strings.update_task}</Text>
             ) : (
               <Text style={styles.heading_text}>{Strings.new_task}</Text>
@@ -180,16 +171,19 @@ const ModalTask = props => {
             value={description}
             onChangeText={description => setDescription(description)}
           />
+          {/* <Text>{item.name}</Text> */}
         </View>
 
         <View style={styles.child_comp}>
           <DropdownComponent
             dropDownValue={valueAssignee}
             setDropDown={item => setValueAssignee(item)}
+            registerData={registerData}
+            loggedInUsername={loggedInUsername}
           />
         </View>
 
-        {radioButtonVisible ? (
+        {props.radioButtonVisible ? (
           <RadioGroup
             containerStyle={{
               flexDirection: 'row',

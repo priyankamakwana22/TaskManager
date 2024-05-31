@@ -25,27 +25,12 @@ export const addTask = taskData => ({
   payload: taskData,
 });
 
-export const setSelectedAssignee = selectedValue => ({
-  type: SELECTED_ASSIGNEE,
-  payload: selectedValue,
-});
-
 export const setLoggedInUsername = loggedInUsername => ({
   type: LOGGED_IN_USERNAME,
   payload: loggedInUsername,
 });
 
-export const isUpdate = status => ({
-  type: IS_UPDATE,
-  payload: status,
-});
-
 export const getTaskId = id => ({
   type: GET_TASK_ID,
   payload: id,
-});
-
-export const updateTask = update => ({
-  type: UPDATE_TASK,
-  payload: update,
 });
